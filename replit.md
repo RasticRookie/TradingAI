@@ -12,7 +12,15 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 
 ## Recent Changes
 
-**November 17, 2025 - Latest Update**
+**November 17, 2025 - Major Enhancement Update**
+- **Smart Data Caching**: Implemented 5-minute cache system to prevent prices/charts from constantly changing on refresh
+- **Multi-Asset Support**: Added tabs for Stocks, Futures, Forex, and Crypto markets in Market Overview
+- **Custom Watchlist**: Added search functionality to add any custom stock ticker to Market Overview
+- **Hot Stories Section**: Enhanced News Feed with prominent "Hot Stories" section highlighting trading signals
+- **Publisher Prominence**: News articles now display publishers (Bloomberg, Reuters, Market Watch, etc.) with icons and bold styling
+- **Seeded Mock Data**: Mock data now uses consistent seeds to maintain stable prices across refreshes
+
+**November 17, 2025 - Feature Expansion**
 - Added three advanced new pages: Trading Strategies, AI Recommendations, and Stock Analyzer
 - Created Trading Strategies page with 8 proven strategies including entry/exit rules and risk management
 - Built AI Recommendations page with ML-powered stock analysis and buy/sell signals
@@ -31,11 +39,17 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 ## Features
 
 ### Market Overview
+- **Multi-Asset Tabs**: Stocks, Futures, Forex, and Crypto markets in one unified view
+- **Custom Watchlist**: Search and add any stock ticker (e.g., NFLX, DIS, UBER) to your watchlist
 - Real-time trending stock data for major tech companies (AAPL, MSFT, GOOGL, AMZN, TSLA, NVDA, META, AMD)
+- **Futures**: S&P 500 (ES), Nasdaq 100 (NQ), Dow Jones (YM), Crude Oil (CL), Gold (GC)
+- **Forex Pairs**: EUR/USD, GBP/USD, USD/JPY, USD/CHF, AUD/USD
+- **Cryptocurrencies**: Bitcoin (BTC), Ethereum (ETH), Binance Coin (BNB), Solana (SOL), Cardano (ADA)
 - AI-powered predictions (Bullish/Bearish/Neutral) with confidence scores
 - Technical indicators including RSI and MACD
 - Visual confidence bars for each prediction
-- Auto-refresh capability
+- Smart caching system (5-minute cache) prevents constant data changes
+- Auto-refresh capability with consistent data
 
 ### My Trades
 - Manual trade entry system (buy/sell orders)
@@ -46,12 +60,15 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 - Data persistence using localStorage
 
 ### News Feed
+- **Hot Stories Section**: Highlighted top 3 stories with strong trading signals (Long/Short)
+- **Prominent Publishers**: Bloomberg, Reuters, Market Watch, CNBC, Financial Times with visual icons
 - Real-time financial news from multiple sources
 - AI sentiment analysis (Bullish/Bearish/Neutral)
 - Trading signal recommendations (Long/Short/Hold)
-- Filterable by sentiment
+- Filterable by sentiment (All, Bullish, Bearish)
 - Related ticker symbols for each article
 - External links to full articles
+- Publisher badges and icons for easy source identification
 
 ### Trading Strategies
 - 8 comprehensive trading strategies with detailed guidelines

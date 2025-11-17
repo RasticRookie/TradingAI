@@ -153,8 +153,8 @@ function createMockStock(symbol: string): TrendingStock {
     prediction: prediction.signal,
     confidence: prediction.confidence,
     technicalIndicators: {
-      rsi: 50 + Math.random() * 40,
-      macd: (Math.random() - 0.5) * 2,
+      rsi: 40 + (seed * 40),
+      macd: (seed - 0.5) * 2,
       sentiment: changePercent / 10
     }
   };
