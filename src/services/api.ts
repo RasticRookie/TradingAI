@@ -6,9 +6,30 @@ const FINNHUB_KEY = import.meta.env.VITE_FINNHUB_KEY || 'demo';
 
 const trendingSymbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'AMD'];
 
-export const fetchTrendingStocks = async (): Promise<TrendingStock[]> => {
+const dataCache: { [key: string]: { data: any; timestamp: number } } = {};
+const CACHE_DURATION = 5 * 60 * 1000;
+
+const mockDataSeeds: { [key: string]: number } = {};
+
+function getCachedData(key: string) {
+  const cached = dataCache[key];
+  if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+    return cached.data;
+  }
+  return null;
+}
+
+function setCachedData(key: string, data: any) {
+  dataCache[key] = { data, timestamp: Date.now() };
+}
+
+export const fetchTrendingStocks = async (symbols: string[] = trendingSymbols): Promise<TrendingStock[]> => {
+  const cacheKey = `stocks_${symbols.join('_')}`;
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
   try {
-    const stockPromises = trendingSymbols.map(async (symbol) => {
+    const stockPromises = symbols.map(async (symbol) => {
       try {
         const response = await axios.get(
           `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHA_VANTAGE_KEY}`
@@ -25,7 +46,7 @@ export const fetchTrendingStocks = async (): Promise<TrendingStock[]> => {
 
         const prediction = getPrediction(changePercent);
         
-        return {
+        const stockData = {
           symbol,
           name: getCompanyName(symbol),
           price,
@@ -35,21 +56,25 @@ export const fetchTrendingStocks = async (): Promise<TrendingStock[]> => {
           prediction: prediction.signal,
           confidence: prediction.confidence,
           technicalIndicators: {
-            rsi: 50 + Math.random() * 40,
-            macd: (Math.random() - 0.5) * 2,
+            rsi: 50 + (price % 20) + 20,
+            macd: ((price % 10) - 5) / 5,
             sentiment: changePercent / 10
           }
         };
+        return stockData;
       } catch (error) {
         return createMockStock(symbol);
       }
     });
 
     const stocks = await Promise.all(stockPromises);
+    setCachedData(cacheKey, stocks);
     return stocks;
   } catch (error) {
     console.error('Error fetching trending stocks:', error);
-    return trendingSymbols.map(createMockStock);
+    const fallback = symbols.map(createMockStock);
+    setCachedData(cacheKey, fallback);
+    return fallback;
   }
 };
 
@@ -108,8 +133,13 @@ export const fetchStockQuote = async (symbol: string): Promise<StockData | null>
 };
 
 function createMockStock(symbol: string): TrendingStock {
-  const basePrice = Math.random() * 500 + 100;
-  const change = (Math.random() - 0.5) * 20;
+  if (!mockDataSeeds[symbol]) {
+    mockDataSeeds[symbol] = Math.random();
+  }
+  
+  const seed = mockDataSeeds[symbol];
+  const basePrice = seed * 500 + 100;
+  const change = (seed - 0.5) * 20;
   const changePercent = (change / basePrice) * 100;
   const prediction = getPrediction(changePercent);
 
@@ -119,7 +149,7 @@ function createMockStock(symbol: string): TrendingStock {
     price: basePrice,
     change,
     changePercent,
-    volume: Math.floor(Math.random() * 50000000) + 1000000,
+    volume: Math.floor(seed * 50000000) + 1000000,
     prediction: prediction.signal,
     confidence: prediction.confidence,
     technicalIndicators: {
@@ -243,3 +273,139 @@ function generateMockNews(): NewsItem[] {
 
   return mockNews;
 }
+
+export const fetchFutures = async (): Promise<TrendingStock[]> => {
+  const futuresSymbols = ['ES', 'NQ', 'YM', 'CL', 'GC'];
+  const futuresNames: { [key: string]: string } = {
+    'ES': 'S&P 500 Futures',
+    'NQ': 'Nasdaq 100 Futures',
+    'YM': 'Dow Jones Futures',
+    'CL': 'Crude Oil Futures',
+    'GC': 'Gold Futures'
+  };
+  
+  const cacheKey = 'futures_data';
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
+  const futuresData = futuresSymbols.map(symbol => {
+    if (!mockDataSeeds[symbol]) {
+      mockDataSeeds[symbol] = Math.random();
+    }
+    const seed = mockDataSeeds[symbol];
+    const basePrice = symbol === 'ES' ? 4500 + seed * 500 :
+                      symbol === 'NQ' ? 15000 + seed * 2000 :
+                      symbol === 'YM' ? 35000 + seed * 3000 :
+                      symbol === 'CL' ? 70 + seed * 30 :
+                      1800 + seed * 400;
+    const change = (seed - 0.5) * (basePrice * 0.02);
+    const changePercent = (change / basePrice) * 100;
+    
+    return {
+      symbol,
+      name: futuresNames[symbol],
+      price: basePrice,
+      change,
+      changePercent,
+      volume: Math.floor(seed * 200000) + 50000,
+      prediction: changePercent > 0.5 ? 'bullish' : changePercent < -0.5 ? 'bearish' : 'neutral',
+      confidence: 65 + seed * 25,
+      technicalIndicators: {
+        rsi: 40 + seed * 30,
+        macd: (seed - 0.5) * 2,
+        sentiment: changePercent / 10
+      }
+    } as TrendingStock;
+  });
+  
+  setCachedData(cacheKey, futuresData);
+  return futuresData;
+};
+
+export const fetchForex = async (): Promise<TrendingStock[]> => {
+  const forexPairs = ['EUR/USD', 'GBP/USD', 'USD/JPY', 'USD/CHF', 'AUD/USD'];
+  const cacheKey = 'forex_data';
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
+  const forexData = forexPairs.map(symbol => {
+    if (!mockDataSeeds[symbol]) {
+      mockDataSeeds[symbol] = Math.random();
+    }
+    const seed = mockDataSeeds[symbol];
+    const basePrice = symbol === 'EUR/USD' ? 1.08 + seed * 0.08 :
+                      symbol === 'GBP/USD' ? 1.25 + seed * 0.10 :
+                      symbol === 'USD/JPY' ? 148 + seed * 10 :
+                      symbol === 'USD/CHF' ? 0.88 + seed * 0.06 :
+                      0.65 + seed * 0.05;
+    const change = (seed - 0.5) * (basePrice * 0.015);
+    const changePercent = (change / basePrice) * 100;
+    
+    return {
+      symbol,
+      name: symbol,
+      price: basePrice,
+      change,
+      changePercent,
+      volume: Math.floor(seed * 500000) + 100000,
+      prediction: changePercent > 0.3 ? 'bullish' : changePercent < -0.3 ? 'bearish' : 'neutral',
+      confidence: 60 + seed * 30,
+      technicalIndicators: {
+        rsi: 45 + seed * 25,
+        macd: (seed - 0.5) * 1.5,
+        sentiment: changePercent / 10
+      }
+    } as TrendingStock;
+  });
+  
+  setCachedData(cacheKey, forexData);
+  return forexData;
+};
+
+export const fetchCrypto = async (): Promise<TrendingStock[]> => {
+  const cryptoSymbols = ['BTC', 'ETH', 'BNB', 'SOL', 'ADA'];
+  const cryptoNames: { [key: string]: string } = {
+    'BTC': 'Bitcoin',
+    'ETH': 'Ethereum',
+    'BNB': 'Binance Coin',
+    'SOL': 'Solana',
+    'ADA': 'Cardano'
+  };
+  
+  const cacheKey = 'crypto_data';
+  const cached = getCachedData(cacheKey);
+  if (cached) return cached;
+
+  const cryptoData = cryptoSymbols.map(symbol => {
+    if (!mockDataSeeds[symbol]) {
+      mockDataSeeds[symbol] = Math.random();
+    }
+    const seed = mockDataSeeds[symbol];
+    const basePrice = symbol === 'BTC' ? 40000 + seed * 20000 :
+                      symbol === 'ETH' ? 2200 + seed * 800 :
+                      symbol === 'BNB' ? 300 + seed * 200 :
+                      symbol === 'SOL' ? 100 + seed * 50 :
+                      0.45 + seed * 0.30;
+    const change = (seed - 0.5) * (basePrice * 0.08);
+    const changePercent = (change / basePrice) * 100;
+    
+    return {
+      symbol,
+      name: cryptoNames[symbol],
+      price: basePrice,
+      change,
+      changePercent,
+      volume: Math.floor(seed * 2000000) + 500000,
+      prediction: changePercent > 1 ? 'bullish' : changePercent < -1 ? 'bearish' : 'neutral',
+      confidence: 55 + seed * 35,
+      technicalIndicators: {
+        rsi: 35 + seed * 40,
+        macd: (seed - 0.5) * 3,
+        sentiment: changePercent / 10
+      }
+    } as TrendingStock;
+  });
+  
+  setCachedData(cacheKey, cryptoData);
+  return cryptoData;
+};
