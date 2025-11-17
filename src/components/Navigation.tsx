@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { TrendingUp, Newspaper, Wallet } from 'lucide-react'
+import { TrendingUp, Newspaper, Wallet, Target, Brain, BarChart3 } from 'lucide-react'
 
 export default function Navigation() {
   const location = useLocation()
@@ -17,41 +17,77 @@ export default function Navigation() {
             </h1>
           </div>
           
-          <div className="flex space-x-1">
+          <div className="flex space-x-1 overflow-x-auto">
             <Link
               to="/"
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
                 isActive('/')
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-slate-800'
               }`}
             >
               <TrendingUp size={20} />
-              <span>Market Overview</span>
+              <span>Market</span>
             </Link>
             
             <Link
               to="/trades"
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
                 isActive('/trades')
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-slate-800'
               }`}
             >
               <Wallet size={20} />
-              <span>My Trades</span>
+              <span>Trades</span>
             </Link>
             
             <Link
               to="/news"
-              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
                 isActive('/news')
                   ? 'bg-purple-500 text-white'
                   : 'text-gray-300 hover:bg-slate-800'
               }`}
             >
               <Newspaper size={20} />
-              <span>News Feed</span>
+              <span>News</span>
+            </Link>
+
+            <Link
+              to="/strategies"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
+                isActive('/strategies')
+                  ? 'bg-purple-500 text-white'
+                  : 'text-gray-300 hover:bg-slate-800'
+              }`}
+            >
+              <Target size={20} />
+              <span>Strategies</span>
+            </Link>
+
+            <Link
+              to="/ai-recommendations"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
+                isActive('/ai-recommendations')
+                  ? 'bg-purple-500 text-white'
+                  : 'text-gray-300 hover:bg-slate-800'
+              }`}
+            >
+              <Brain size={20} />
+              <span>AI Recs</span>
+            </Link>
+
+            <Link
+              to="/analyzer"
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all whitespace-nowrap ${
+                isActive('/analyzer')
+                  ? 'bg-purple-500 text-white'
+                  : 'text-gray-300 hover:bg-slate-800'
+              }`}
+            >
+              <BarChart3 size={20} />
+              <span>Analyzer</span>
             </Link>
           </div>
         </div>
