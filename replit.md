@@ -12,6 +12,13 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 
 ## Recent Changes
 
+**November 18, 2025 - Trading Strategies Visual Enhancement**
+- **Visual Chart Patterns**: Added 8 unique SVG chart pattern visualizations for each strategy
+- **Prominent Stop Loss Display**: Stop loss now displayed in large red gradient box at top when strategy is selected
+- **Dynamic UI**: Added animations, hover effects, and smooth transitions throughout the page
+- **Risk/Reward Ratios**: Added clear risk-reward ratios for each strategy
+- **Enhanced Strategy Cards**: Chart patterns embedded in strategy cards with better visual hierarchy
+
 **November 17, 2025 - Major Enhancement Update**
 - **Smart Data Caching**: Implemented 5-minute cache system to prevent prices/charts from constantly changing on refresh
 - **Multi-Asset Support**: Added tabs for Stocks, Futures, Forex, and Crypto markets in Market Overview
@@ -71,13 +78,15 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 - Publisher badges and icons for easy source identification
 
 ### Trading Strategies
-- 8 comprehensive trading strategies with detailed guidelines
-- Strategies categorized by: Trend Following, Momentum, Volatility, Price Action, Breakout, Technical
-- Detailed entry and exit rules for each strategy
-- Risk management and stop-loss recommendations
+- **Visual Chart Patterns**: Each strategy displays a unique SVG chart pattern (Moving Average Crossover, RSI Divergence, Bollinger Squeeze, etc.)
+- **Prominent Stop Loss**: Large red gradient box highlights the stop loss rule when you select a strategy
+- **8 Comprehensive Strategies**: Categorized by Trend Following, Momentum, Volatility, Price Action, Breakout, Technical
+- **Risk/Reward Ratios**: Clear 1:2, 1:3, 1:4 risk-reward displays for each strategy
+- Detailed entry and exit rules with numbered steps
 - Success rates, timeframes, and difficulty levels
+- Dynamic hover effects and smooth animations
 - Best use cases for different market conditions
-- Interactive strategy selection and detailed view
+- Interactive strategy selection with visual feedback
 
 ### AI Recommendations
 - AI-powered stock recommendations with Buy/Sell/Hold signals
