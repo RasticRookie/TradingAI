@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Search, TrendingUp, DollarSign, Users, PieChart, BarChart3, Activity, Calendar, Award, AlertCircle } from 'lucide-react';
+import { Search, TrendingUp, PieChart, BarChart3, Activity, Award } from 'lucide-react';
 import StockChart from '../components/StockChart';
+import { generateMockChartData } from '../utils/chartData';
 
 interface StockAnalysis {
   symbol: string;
@@ -229,7 +230,10 @@ const StockAnalyzer: React.FC = () => {
                 <Activity className="w-6 h-6" />
                 Price Chart
               </h3>
-              <StockChart symbol={analysis.symbol} />
+              <StockChart 
+                data={generateMockChartData(analysis.price, 30)} 
+                color={analysis.trend === 'Bullish' ? '#4ade80' : analysis.trend === 'Bearish' ? '#f87171' : '#9ca3af'}
+              />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">

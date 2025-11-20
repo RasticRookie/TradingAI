@@ -162,7 +162,6 @@ function createMockStock(symbol: string): TrendingStock {
 
 function getPrediction(changePercent: number): { signal: 'bullish' | 'bearish' | 'neutral', confidence: number } {
   const rsi = 50 + Math.random() * 40;
-  const sentiment = changePercent / 10;
   
   let score = 0;
   if (changePercent > 0) score += 1;

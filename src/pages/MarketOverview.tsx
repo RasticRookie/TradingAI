@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { TrendingStock } from '../types'
 import { fetchTrendingStocks, fetchFutures, fetchForex, fetchCrypto } from '../services/api'
-import { TrendingUp, TrendingDown, Minus, Activity, Search, Plus, X } from 'lucide-react'
+import { TrendingUp, TrendingDown, Minus, Activity, Plus, X } from 'lucide-react'
 import StockChart from '../components/StockChart'
 import ErrorNotification from '../components/ErrorNotification'
 import { generateMockChartData } from '../utils/chartData'

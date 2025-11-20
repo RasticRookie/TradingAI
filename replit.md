@@ -12,6 +12,13 @@ TradePredict Pro is an advanced trading platform that helps traders make informe
 
 ## Recent Changes
 
+**November 20, 2025 - GitHub Pages Deployment Setup**
+- **GitHub Pages Ready**: Configured app for deployment to GitHub Pages
+- **Automated Deploy**: Added `npm run deploy` command for one-click deployment
+- **Router Configuration**: Updated React Router with basename for GitHub Pages support
+- **Deployment Guide**: Created comprehensive DEPLOYMENT.md with step-by-step instructions
+- **README Update**: Added deployment section and project showcase
+
 **November 18, 2025 - Trading Strategies Visual Enhancement**
 - **Visual Chart Patterns**: Added 8 unique SVG chart pattern visualizations for each strategy
 - **Prominent Stop Loss Display**: Stop loss now displayed in large red gradient box at top when strategy is selected
