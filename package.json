@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://YOUR_USERNAME.github.io/TradePredict-Pro",
+  "homepage": "https://rasticrookie.github.io/TradingAi",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --port 5000",
     "build": "tsc && vite build",
